@@ -3183,23 +3183,6 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       });
     }
   }
-  function createNpc(x, y, spr, text2) {
-    add([
-      sprite(spr),
-      pos(x, y),
-      z(),
-      area({ width: 16, height: 8, offset: vec2(0, 8) }),
-      solid(),
-      "npc",
-      "object",
-      {
-        txt: text2
-      }
-    ]);
-  }
-  __name(createNpc, "createNpc");
-  createNpc(80, 80, "npc1", "Beans");
-  createNpc(32, 24, "npc2", "Im writing this at 3 am");
   var player = add([
     sprite("player"),
     pos(64, 64),
@@ -3207,18 +3190,27 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     area({ width: 16, height: 8, offset: vec2(0, 8) }),
     solid(),
     "object",
+    "hpHaver",
+    "player",
     {
       spd: 64,
-      dir: "d"
+      dir: "d",
+      health: 10,
+      invis: 10
     }
   ]);
-  onKeyPress(["up", "down", "left", "right"], () => {
+  onUpdate("player", (player2) => {
+    if (player2.invis > 0) {
+      player2.invis -= 0.1;
+    }
+  });
+  onKeyPress(["up", "down", "left", "right", "space"], () => {
     if (gameState === "game") {
       player.play("run");
       currentText = "Nothing was said, not even a mouse";
     }
   });
-  onKeyRelease(["up", "down", "left", "right"], () => {
+  onKeyRelease(["up", "down", "left", "right", "space"], () => {
     if (gameState === "game") {
       if (!isKeyDown("left") && !isKeyDown("right") && !isKeyDown("up") && !isKeyDown("down")) {
         player.play("idle");
@@ -3304,6 +3296,23 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   onUpdate("object", (obj) => {
     obj.z = obj.pos.y;
   });
+  function createNpc(x, y, spr, text2) {
+    add([
+      sprite(spr),
+      pos(x, y),
+      z(),
+      area({ width: 16, height: 8, offset: vec2(0, 8) }),
+      solid(),
+      "npc",
+      "object",
+      {
+        txt: text2
+      }
+    ]);
+  }
+  __name(createNpc, "createNpc");
+  createNpc(80, 80, "npc1", "Beans");
+  createNpc(32, 24, "npc2", "Im writing this at 3 am");
   var currentText;
   var textBox = add([
     layer("text"),
@@ -3380,25 +3389,25 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           case "u":
             DY = -128;
             DX = 0;
-            SY = -12;
-            SX = 0;
+            SY = -4;
+            SX = 4;
             break;
           case "d":
             DY = 128;
             DX = 0;
-            SY = 20;
-            SX = 0;
+            SY = 18;
+            SX = 4;
             break;
           case "l":
             DX = -128;
             DY = 0;
-            SX = -12;
+            SX = -4;
             SY = 0;
             break;
           case "r":
             DX = 128;
             DY = 0;
-            SX = 20;
+            SX = 12;
             SY = 0;
             break;
         }
@@ -3406,6 +3415,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
           pos([object.pos.x + SX, object.pos.y + SY]),
           area(),
           rect(8, 8),
+          color(255, 0, 0),
           "shoot",
           {
             dx: DX,
@@ -3420,6 +3430,43 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   });
   onCollide("solid", "shoot", (solid2, object) => {
     object.destroy();
+  });
+  function createEnemy(x, y, spr, health) {
+    add([
+      pos(x, y),
+      area(),
+      solid(),
+      sprite(spr),
+      "follower",
+      "enemy",
+      {
+        health,
+        damage: 2
+      }
+    ]);
+  }
+  __name(createEnemy, "createEnemy");
+  function createCrawler(x, y) {
+    createEnemy(x, y, "npc2", 3);
+  }
+  __name(createCrawler, "createCrawler");
+  createCrawler(32, 64);
+  onUpdate("follower", (enemy) => {
+    if (player.pos.x - enemy.pos.x < 128 || player.pos.y - enemy.pos.y < 128) {
+      enemy.moveTo(player.pos.x, player.pos.y, 32);
+    }
+    if (enemy.health < 1) {
+      enemy.destroy();
+    }
+  });
+  onCollide("player", "enemy", (player2, enemy) => {
+    if (player2.invis < 0.1) {
+      player2.health -= enemy.damage;
+      player2.invis = 10;
+    }
+  });
+  onCollide("shoot", "enemy", (bullet, object) => {
+    object.health -= 1;
   });
   onUpdate(() => {
     menuBox.pos = [camPos().x - width() / 2, camPos().y - width() / 2];
@@ -3438,6 +3485,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     if (gameState != "game") {
       player.play("idle");
     }
+    debug.log(player.health);
   });
 })();
 //# sourceMappingURL=game.js.map

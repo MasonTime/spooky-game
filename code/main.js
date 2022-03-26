@@ -283,26 +283,7 @@ for (let y = 0; y < mapH; y++) {
 	}
 }
 
-//creates npc
-function createNpc(x,y,spr,text) {
-	add([
-		sprite(spr),
-		pos(x,y),
-		z(),
-		area({width:16,height:8,offset:vec2(0,8)}),
-		solid(),
-		"npc",
-		"object",
-		{
-			txt:text,
-		}
-	])
-}
-
-createNpc(80,80,"npc1","Beans")
-
-createNpc(32,24,"npc2","Im writing this at 3 am")
-
+//player
 const player = add([
 	sprite("player"),
 	pos(64,64),
@@ -310,21 +291,31 @@ const player = add([
 	area({width:16,height:8,offset:vec2(0,8)}),
 	solid(),
 	"object",
+	"hpHaver",
+	"player",
 	{
 		spd:64,
 		dir:"d",
+		health:10,
+		invis:10,
 	}
 ])
 
+onUpdate("player", (player) => {
+	if (player.invis > 0) {
+		player.invis -= .1
+	}
+})
+
 //animating player
-onKeyPress(["up","down","left","right"], () => {
+onKeyPress(["up","down","left","right","space"], () => {
 	if (gameState === "game") {
 		player.play("run")
 		currentText = "Nothing was said, not even a mouse";
 	}
 })
 
-onKeyRelease(["up","down","left","right"], () => {
+onKeyRelease(["up","down","left","right","space"], () => {
 	if (gameState === "game") {
 		if (
 			!isKeyDown("left")
@@ -430,7 +421,26 @@ onUpdate("object", (obj) => {
 	obj.z = obj.pos.y
 })
 
-//text
+//text and npc
+function createNpc(x,y,spr,text) {
+	add([
+		sprite(spr),
+		pos(x,y),
+		z(),
+		area({width:16,height:8,offset:vec2(0,8)}),
+		solid(),
+		"npc",
+		"object",
+		{
+			txt:text,
+		}
+	])
+}
+
+createNpc(80,80,"npc1","Beans")
+
+createNpc(32,24,"npc2","Im writing this at 3 am")
+
 var currentText;
 
 const textBox = add([
@@ -531,25 +541,25 @@ const spells = {
 				case "u":
 					DY = -128;
 					DX = 0;
-					SY = -12;
-					SX = 0;
+					SY = -4;
+					SX = 4;
 					break;
 				case "d":
 					DY = 128;
 					DX = 0;
-					SY = 20;
-					SX = 0;
+					SY = 18;
+					SX = 4;
 					break;
 				case "l":
 					DX = -128;
 					DY = 0;
-					SX = -12;
+					SX = -4;
 					SY = 0;
 					break;
 				case "r":
 					DX = 128;
 					DY = 0;
-					SX = 20;
+					SX = 12;
 					SY = 0;
 					break;
 			}
@@ -558,6 +568,7 @@ const spells = {
 				pos( [object.pos.x+SX,object.pos.y+SY] ),
 				area(),
 				rect(8,8),
+				color(255,0,0),
 
 				"shoot",
 				{
@@ -577,7 +588,52 @@ onCollide("solid", "shoot", (solid,object) => {
   object.destroy()
 })
 
+//enemies
+function createEnemy(x,y,spr,health) {
+	add([
+		pos(x,y),
+		area(),
+		solid(),
+		sprite(spr),
+
+		"follower",
+		"enemy",
+		{
+			health: health,
+			damage: 2,
+		}
+	])
+}
+
+function createCrawler (x,y){
+	createEnemy(x,y,"npc2",3);
+}
+createCrawler(32,64)
+
+onUpdate("follower", (enemy) => {
+
+	if (player.pos.x - enemy.pos.x < 128 || player.pos.y - enemy.pos.y < 128)	{
+		enemy.moveTo(player.pos.x,player.pos.y,32)
+	}
 		
+	if (enemy.health < 1) {
+		enemy.destroy()
+	}
+})
+
+onCollide("player","enemy", (player,enemy) => {
+
+	if (player.invis < .1) {
+		player.health -= enemy.damage;
+
+		player.invis = 10;
+	}
+})
+
+onCollide("shoot","enemy", (bullet,object) => {
+	object.health -= 1;
+})
+
 //simple update function
 onUpdate(() => {
 	//set the current text
@@ -604,5 +660,6 @@ onUpdate(() => {
 	if (gameState != "game") {
 		player.play("idle")
 	}
-	
+
+	debug.log(player.health)
 })
