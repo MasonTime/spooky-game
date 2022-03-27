@@ -2912,130 +2912,136 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     return ye;
   }, "default");
 
+  // code/assets.js
+  function loadAssets() {
+    loadSprite("player", "sprites/player.png", {
+      sliceX: 3,
+      sliceY: 1,
+      anims: {
+        run: {
+          from: 0,
+          to: 2,
+          loop: true
+        },
+        idle: 0
+      }
+    });
+    loadSprite("npc1", "sprites/npc1.png", {
+      sliceX: 3,
+      sliceY: 1,
+      anims: {
+        run: {
+          from: 0,
+          to: 2,
+          loop: true
+        },
+        idle: 0
+      }
+    });
+    loadSprite("npc2", "sprites/npc2.png", {
+      sliceX: 3,
+      sliceY: 1,
+      anims: {
+        run: {
+          from: 0,
+          to: 2,
+          loop: true
+        },
+        idle: 0
+      }
+    });
+    loadSpriteAtlas("sprites/tileset1.png", {
+      ScumUpLC1: {
+        x: 0,
+        y: 0,
+        width: 16,
+        height: 16
+      },
+      ScumUpRC1: {
+        x: 16,
+        y: 0,
+        width: 16,
+        height: 16
+      },
+      ScumDnLC1: {
+        x: 0,
+        y: 16,
+        width: 16,
+        height: 16
+      },
+      ScumDnRC1: {
+        x: 16,
+        y: 16,
+        width: 16,
+        height: 16
+      },
+      ScumUpLC2: {
+        x: 0,
+        y: 64,
+        width: 16,
+        height: 16
+      },
+      ScumUpRC2: {
+        x: 16,
+        y: 64,
+        width: 16,
+        height: 16
+      },
+      ScumDnLC2: {
+        x: 0,
+        y: 80,
+        width: 16,
+        height: 16
+      },
+      ScumDnRC2: {
+        x: 16,
+        y: 80,
+        width: 16,
+        height: 16
+      },
+      ScumWall1: {
+        x: 0,
+        y: 32,
+        width: 16,
+        height: 16
+      },
+      ScumWallR1: {
+        x: 0,
+        y: 48,
+        width: 16,
+        height: 16
+      },
+      ScumWallL1: {
+        x: 16,
+        y: 48,
+        width: 16,
+        height: 16
+      },
+      ScumWallUp1: {
+        x: 0,
+        y: 96,
+        width: 16,
+        height: 16
+      },
+      ScumWallDn1: {
+        x: 16,
+        y: 96,
+        width: 16,
+        height: 16
+      },
+      ScumGround1: {
+        x: 16,
+        y: 32,
+        width: 16,
+        height: 16
+      }
+    });
+  }
+  __name(loadAssets, "loadAssets");
+
   // code/main.js
-  no({ width: 128, height: 128, scale: 4, background: [0, 0, 0] });
-  loadSprite("player", "sprites/player.png", {
-    sliceX: 3,
-    sliceY: 1,
-    anims: {
-      run: {
-        from: 0,
-        to: 2,
-        loop: true
-      },
-      idle: 0
-    }
-  });
-  loadSprite("npc1", "sprites/npc1.png", {
-    sliceX: 3,
-    sliceY: 1,
-    anims: {
-      run: {
-        from: 0,
-        to: 2,
-        loop: true
-      },
-      idle: 0
-    }
-  });
-  loadSprite("npc2", "sprites/npc2.png", {
-    sliceX: 3,
-    sliceY: 1,
-    anims: {
-      run: {
-        from: 0,
-        to: 2,
-        loop: true
-      },
-      idle: 0
-    }
-  });
-  loadSpriteAtlas("sprites/tileset.png", {
-    oUpL: {
-      x: 0,
-      y: 0,
-      width: 16,
-      height: 16
-    },
-    oUpR: {
-      x: 16,
-      y: 0,
-      width: 16,
-      height: 16
-    },
-    oDnL: {
-      x: 0,
-      y: 16,
-      width: 16,
-      height: 16
-    },
-    oDnR: {
-      x: 16,
-      y: 16,
-      width: 16,
-      height: 16
-    },
-    oUpL2: {
-      x: 0,
-      y: 128,
-      width: 16,
-      height: 16
-    },
-    oUpR2: {
-      x: 16,
-      y: 128,
-      width: 16,
-      height: 16
-    },
-    oDnL2: {
-      x: 0,
-      y: 144,
-      width: 16,
-      height: 16
-    },
-    oDnR2: {
-      x: 16,
-      y: 144,
-      width: 16,
-      height: 16
-    },
-    oWlL: {
-      x: 16,
-      y: 32,
-      width: 16,
-      height: 16
-    },
-    oWlR: {
-      x: 16,
-      y: 48,
-      width: 16,
-      height: 16
-    },
-    oWlD: {
-      x: 0,
-      y: 48,
-      width: 16,
-      height: 16
-    },
-    oWlU: {
-      x: 32,
-      y: 112,
-      width: 16,
-      height: 16
-    },
-    oWl: {
-      x: 0,
-      y: 32,
-      width: 16,
-      height: 16
-    },
-    oG: {
-      x: 32,
-      y: 0,
-      width: 16,
-      height: 16
-    }
-  });
+  no({ width: 128, height: 128, scale: 3, background: [0, 0, 0] });
+  loadAssets();
   layers([
     "game",
     "ui",
@@ -3043,7 +3049,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     "text"
   ], "game");
   var gameState = "game";
-  levels = [
+  grumbleSnatchLevels = [
     [
       "{------}",
       "(======d",
@@ -3085,104 +3091,110 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       "[______]"
     ]
   ];
-  map = [
+  grumbleSnatchMap = [
     [0, 1, 2],
     [0, 3, 2]
   ];
-  mapW = 3;
-  mapH = 2;
-  for (let y = 0; y < mapH; y++) {
-    for (let x = 0; x < mapW; x++) {
-      addLevel(levels[map[y][x]], {
-        width: 16,
-        height: 16,
-        pos: vec2(x * 128, y * 128),
-        "{": () => [
-          solid(),
-          sprite("oUpL"),
-          pos(),
-          area()
-        ],
-        "}": () => [
-          solid(),
-          sprite("oUpR"),
-          pos(),
-          area()
-        ],
-        "[": () => [
-          solid(),
-          sprite("oDnL"),
-          pos(),
-          area()
-        ],
-        "]": () => [
-          solid(),
-          sprite("oDnR"),
-          pos(),
-          area()
-        ],
-        "(": () => [
-          solid(),
-          sprite("oWlL"),
-          pos(),
-          area()
-        ],
-        ")": () => [
-          solid(),
-          sprite("oWlR"),
-          pos(),
-          area()
-        ],
-        "_": () => [
-          solid(),
-          sprite("oWlU"),
-          pos(),
-          area()
-        ],
-        "-": () => [
-          solid(),
-          sprite("oWlD"),
-          pos(),
-          area()
-        ],
-        "=": () => [
-          solid(),
-          sprite("oWl"),
-          pos(),
-          area()
-        ],
-        "o": () => [
-          sprite("oG"),
-          pos(),
-          area()
-        ],
-        "e": () => [
-          sprite("oUpL2"),
-          pos(),
-          solid(),
-          area()
-        ],
-        "r": () => [
-          sprite("oUpR2"),
-          pos(),
-          solid(),
-          area()
-        ],
-        "d": () => [
-          sprite("oDnL2"),
-          pos(),
-          solid(),
-          area()
-        ],
-        "f": () => [
-          sprite("oDnR2"),
-          pos(),
-          solid(),
-          area()
-        ]
-      });
+  grumbleSnatchMap.w = 3;
+  grumbleSnatchMap.h = 2;
+  function createMap(levels, map, spriteSheet) {
+    for (let y = 0; y < map.h; y++) {
+      for (let x = 0; x < map.w; x++) {
+        if (spriteSheet === "scum") {
+          addLevel(levels[map[y][x]], {
+            width: 16,
+            height: 16,
+            pos: vec2(x * 128, y * 128),
+            "{": () => [
+              solid(),
+              sprite("ScumUpLC1"),
+              pos(),
+              area()
+            ],
+            "}": () => [
+              solid(),
+              sprite("ScumUpRC1"),
+              pos(),
+              area()
+            ],
+            "[": () => [
+              solid(),
+              sprite("ScumDnLC1"),
+              pos(),
+              area()
+            ],
+            "]": () => [
+              solid(),
+              sprite("ScumDnRC1"),
+              pos(),
+              area()
+            ],
+            "(": () => [
+              solid(),
+              sprite("ScumWallL1"),
+              pos(),
+              area()
+            ],
+            ")": () => [
+              solid(),
+              sprite("ScumWallR1"),
+              pos(),
+              area()
+            ],
+            "_": () => [
+              solid(),
+              sprite("ScumWallDn1"),
+              pos(),
+              area()
+            ],
+            "-": () => [
+              solid(),
+              sprite("ScumWallUp1"),
+              pos(),
+              area()
+            ],
+            "=": () => [
+              solid(),
+              sprite("ScumWall1"),
+              pos(),
+              area()
+            ],
+            "o": () => [
+              sprite("ScumGround1"),
+              pos(),
+              area()
+            ],
+            "e": () => [
+              sprite("ScumUpLC2"),
+              pos(),
+              solid(),
+              area()
+            ],
+            "r": () => [
+              sprite("ScumUpRC2"),
+              pos(),
+              solid(),
+              area()
+            ],
+            "d": () => [
+              sprite("ScumDnLC2"),
+              pos(),
+              solid(),
+              area()
+            ],
+            "f": () => [
+              sprite("ScumDnRC2"),
+              pos(),
+              solid(),
+              area()
+            ]
+          });
+        }
+      }
     }
   }
+  __name(createMap, "createMap");
+  createMap(grumbleSnatchLevels, grumbleSnatchMap, "scum");
   var player = add([
     sprite("player"),
     pos(64, 64),
@@ -3194,9 +3206,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     "player",
     {
       spd: 64,
-      dir: "d",
-      health: 10,
-      invis: 10
+      dir: "d"
     }
   ]);
   onUpdate("player", (player2) => {
@@ -3284,13 +3294,6 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       case "text":
         gameState = "game";
         break;
-      case "game":
-        spells[xSpell].use(player);
-    }
-  });
-  onKeyPress("c", () => {
-    if (gameState === "game") {
-      spells[cSpell].use(player);
     }
   });
   onUpdate("object", (obj) => {
@@ -3344,7 +3347,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       text2.hidden = false;
     }
   });
-  var menuPos = 3;
+  var menuPos = 1;
   var menuBox = add([
     layer("menu"),
     rect(128, 32),
@@ -3355,7 +3358,7 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
   var menuText = add([
     layer("menu"),
     pos(camPos().x - width() / 2, camPos().y - width() / 2),
-    text("Text\nTricks\nSave", {
+    text("Text\nSave", {
       width: 128,
       size: 6,
       font: "sink"
@@ -3375,99 +3378,6 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
       menu.hidden = false;
     }
   });
-  xSpell = 0;
-  cSpell = 0;
-  var spells = {
-    0: {
-      use: function(object) {
-        let DX;
-        let DY;
-        let dir = object.dir;
-        let SX;
-        let SY;
-        switch (dir) {
-          case "u":
-            DY = -128;
-            DX = 0;
-            SY = -4;
-            SX = 4;
-            break;
-          case "d":
-            DY = 128;
-            DX = 0;
-            SY = 18;
-            SX = 4;
-            break;
-          case "l":
-            DX = -128;
-            DY = 0;
-            SX = -4;
-            SY = 0;
-            break;
-          case "r":
-            DX = 128;
-            DY = 0;
-            SX = 12;
-            SY = 0;
-            break;
-        }
-        add([
-          pos([object.pos.x + SX, object.pos.y + SY]),
-          area(),
-          rect(8, 8),
-          color(255, 0, 0),
-          "shoot",
-          {
-            dx: DX,
-            dy: DY
-          }
-        ]);
-      }
-    }
-  };
-  onUpdate("shoot", (object) => {
-    object.move(object.dx, object.dy);
-  });
-  onCollide("solid", "shoot", (solid2, object) => {
-    object.destroy();
-  });
-  function createEnemy(x, y, spr, health) {
-    add([
-      pos(x, y),
-      area(),
-      solid(),
-      sprite(spr),
-      "follower",
-      "enemy",
-      {
-        health,
-        damage: 2
-      }
-    ]);
-  }
-  __name(createEnemy, "createEnemy");
-  function createCrawler(x, y) {
-    createEnemy(x, y, "npc2", 3);
-  }
-  __name(createCrawler, "createCrawler");
-  createCrawler(32, 64);
-  onUpdate("follower", (enemy) => {
-    if (player.pos.x - enemy.pos.x < 128 || player.pos.y - enemy.pos.y < 128) {
-      enemy.moveTo(player.pos.x, player.pos.y, 32);
-    }
-    if (enemy.health < 1) {
-      enemy.destroy();
-    }
-  });
-  onCollide("player", "enemy", (player2, enemy) => {
-    if (player2.invis < 0.1) {
-      player2.health -= enemy.damage;
-      player2.invis = 10;
-    }
-  });
-  onCollide("shoot", "enemy", (bullet, object) => {
-    object.health -= 1;
-  });
   onUpdate(() => {
     menuBox.pos = [camPos().x - width() / 2, camPos().y - width() / 2];
     menuText.pos = [camPos().x - width() / 2, camPos().y - width() / 2];
@@ -3476,16 +3386,15 @@ vec4 frag(vec3 pos, vec2 uv, vec4 color, sampler2D tex) {
     npcText.pos = [camPos().x - width() / 2 + 0, camPos().y - width() / 2 + 96];
     textBox.pos = [camPos().x - width() / 2 + 0, camPos().y - width() / 2 + 96];
     camPos(Math.ceil(player.pos.x / width()) * width() - width() + width() / 2, Math.ceil(player.pos.y / height()) * height() - height() + height() / 2);
-    if (menuPos > 2) {
-      menuPos = 0;
+    if (menuPos > 1) {
+      menuPos = 1;
     }
     if (menuPos < 0) {
-      menuPos = 2;
+      menuPos = 0;
     }
     if (gameState != "game") {
       player.play("idle");
     }
-    debug.log(player.health);
   });
 })();
 //# sourceMappingURL=game.js.map

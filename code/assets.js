@@ -1,0 +1,134 @@
+export default function loadAssets() {
+	// load assets
+	loadSprite("player","sprites/player.png", {
+		sliceX:3,
+		sliceY:1,
+		anims:{
+			run:{
+				from:0,
+				to:2,
+				loop:true,
+			},
+			idle:0,
+		}
+	})
+	
+	loadSprite("npc1","sprites/npc1.png", {
+		sliceX:3,
+		sliceY:1,
+		anims:{
+			run:{
+				from:0,
+				to:2,
+				loop:true,
+			},
+			idle:0,
+		}
+	})
+	
+	loadSprite("npc2","sprites/npc2.png", {
+		sliceX:3,
+		sliceY:1,
+		anims:{
+			run:{
+				from:0,
+				to:2,
+				loop:true,
+			},
+			idle:0,
+		}
+	})
+
+	//scum tileset
+	loadSpriteAtlas("sprites/tileset1.png",{
+		//corners
+		ScumUpLC1:{
+			x:0,
+			y:0,
+			width:16,
+			height:16,
+		},
+		ScumUpRC1:{
+			x:16,
+			y:0,
+			width:16,
+			height:16,
+		},
+		ScumDnLC1:{
+			x:0,
+			y:16,
+			width:16,
+			height:16,
+		},
+		ScumDnRC1:{
+			x:16,
+			y:16,
+			width:16,
+			height:16,
+		},
+	
+		ScumUpLC2:{
+			x:0,
+			y:64,
+			width:16,
+			height:16,
+		},
+		ScumUpRC2:{
+			x:16,
+			y:64,
+			width:16,
+			height:16,
+		},
+		ScumDnLC2:{
+			x:0,
+			y:80,
+			width:16,
+			height:16,
+		},
+		ScumDnRC2:{
+			x:16,
+			y:80,
+			width:16,
+			height:16,
+		},
+		
+		//walls
+		ScumWall1:{
+			x:0,
+			y:32,
+			width:16,
+			height:16,
+		},
+		ScumWallR1:{
+			x:0,
+			y:48,
+			width:16,
+			height:16,
+		},
+		ScumWallL1:{
+			x:16,
+			y:48,
+			width:16,
+			height:16,
+		},
+		ScumWallUp1:{
+			x:0,
+			y:96,
+			width:16,
+			height:16,
+		},
+		ScumWallDn1:{
+			x:16,
+			y:96,
+			width:16,
+			height:16,
+		},
+		//ground
+		ScumGround1:{
+			x:16,
+			y:32,
+			width:16,
+			height:16,
+		}
+	})
+}
